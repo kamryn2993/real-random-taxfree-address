@@ -532,6 +532,7 @@ TYz2SP7GtL84t14CeL7tnhHLgeako3haHW
 
 ### 📊 技术服务支持
 
-需要建站数据支持？欢迎随时联系我们，提供付费服务与技术协助。
+需要建站的技术和内容支持？欢迎随时联系我们，提供付费服务与技术协助。
 
 📧 邮箱：[jietoushiren01@gmail.com](mailto:jietoushiren01@gmail.com)
+
