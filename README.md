@@ -1,5 +1,13 @@
 # Real Random US Tax-Free State Address Generator
 
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Frontend](https://img.shields.io/badge/Frontend-Pure%20JavaScript-blue)]()
+[![Countries](https://img.shields.io/badge/Countries-10%2B-orange)]()
+[![Languages](https://img.shields.io/badge/Languages-5-brightgreen)]()
+[![Tax-Free States](https://img.shields.io/badge/Tax--Free%20States-5-red)]()
+[![No Backend](https://img.shields.io/badge/Backend-None-lightgrey)]()
+[![Privacy](https://img.shields.io/badge/Privacy-First-brightgreen)]()
+
 > This repository contains the open-source **frontend core engine** of MockAddress, for generating authentic-format test addresses and MAC address data across multiple countries/regions.  
 > Full production site: <https://mockaddress.com/>
 
@@ -55,21 +63,24 @@ All core logic runs entirely in the browser and can be deployed to any static ho
 
 ## Repository Structure
 
-```text
-src/
-  js/
-    address-generator.js     # Address/identity/credit card generation engine
-    mac-generator.js         # MAC generation and vendor lookup
-    storage.js               # Storage, rate limiting, export utilities
-    language-switcher.js     # Multi-language routing and internal link rewriting
-    utils.js                 # General utility functions
-  css/
-    main.css                 # Universal dark theme and base UI component styles
-
-README.md                    # Project documentation (this file)
-LICENSE                      # Open source license (MIT recommended)
-CONTRIBUTING.md              # Contribution guidelines (optional)
-ROADMAP.md                   # Roadmap (optional)
+```
+mockaddress-core/
+├── src/
+│   ├── js/
+│   │   ├── address-generator.js     # Address/identity/credit card generation engine
+│   │   ├── mac-generator.js         # MAC generation and vendor lookup
+│   │   ├── storage.js               # Storage, rate limiting, export utilities
+│   │   ├── language-switcher.js     # Multi-language routing and internal link rewriting
+│   │   ├── utils.js                 # General utility functions
+│   │   └── config.js                # Configuration module
+│   └── css/
+│       └── main.css                 # Universal dark theme and base UI component styles
+├── README.md                         # Project documentation (this file)
+├── README_EN.md                      # English documentation
+├── LICENSE                           # Open source license (MIT)
+├── CONTRIBUTING.md                   # Contribution guidelines
+├── ROADMAP.md                        # Roadmap
+└── .gitignore                        # Git ignore rules
 ```
 
 > **Reminder**: **This repository does not include production site HTML files or large-scale data files `data/*.json`**.  
@@ -134,6 +145,55 @@ ROADMAP.md                   # Roadmap (optional)
 - `generateTaxFreeAddress(state)` - US tax-free state addresses
 - `generateIdentityInfo(address)` - Identity information
 - `generateCreditCardInfo()` - Credit card information (testing only)
+
+### Code Examples
+
+**Generate US Tax-Free State Address:**
+
+```javascript
+import { generateTaxFreeAddress } from './src/js/address-generator.js';
+
+// Generate address for Oregon (tax-free state)
+const address = await generateTaxFreeAddress('OR');
+console.log(address);
+// Output: { street: "123 Main St", city: "Portland", state: "OR", zip: "97201", ... }
+```
+
+**Generate Address with Identity Info:**
+
+```javascript
+import { generateUSAddress, generateIdentityInfo } from './src/js/address-generator.js';
+
+const address = await generateUSAddress('CA');
+const identity = generateIdentityInfo(address);
+console.log({ ...address, ...identity });
+// Output includes: name, gender, dateOfBirth, occupation, ssn, etc.
+```
+
+**Generate MAC Address:**
+
+```javascript
+import { generateMACAddress, lookupVendor } from './src/js/mac-generator.js';
+
+const mac = generateMACAddress('colon'); // 'aa:bb:cc:dd:ee:ff'
+const vendor = await lookupVendor(mac);
+console.log(vendor); // Vendor information from OUI database
+```
+
+**Export to CSV/JSON:**
+
+```javascript
+import { exportToCSV, exportToJSON, getAllSavedAddresses } from './src/js/storage.js';
+
+// After saving some addresses
+const addresses = getAllSavedAddresses();
+const csv = exportToCSV(addresses);
+const json = exportToJSON(addresses);
+
+// Download or use the exported data
+console.log(csv);
+console.log(json);
+```
 
 For detailed usage instructions, see [`使用说明.md`](./使用说明.md) (Usage Guide in Chinese).
 
@@ -263,15 +323,36 @@ If you have any questions or suggestions during use, welcome to participate via 
 
 ## GitHub Topics
 
-**Recommended topics for this repository:**
+**Recommended topics for this repository (copy and paste into GitHub repository settings):**
 
+### Core Functionality Tags
 ```
-javascript, frontend, address-generator, tax-free-states, global-addresses, 
-multi-language, test-data, devtools, qa, testing, mock-data, 
-us-address, canada-address, hong-kong-address, mac-address, 
-authentic-address, postal-standards, csv-export, json-export, 
-browser-only, privacy-first, openstreetmap, address-validation, 
-form-testing, automation, ci-cd, static-site, no-backend
+address-generator, random-address, fake-address, tax-free-state, real-address, 
+random-us-address, random-address-generator-for-testing, us-dummy-address-generator
+```
+
+### Regional Address Tags
+```
+hong-kong-address-random, random-address-in-hong-kong, hong-kong-random-address,
+japan-address-generator-tokyo, random-japan-address, taiwan-address-format, 
+taiwan-address-sample, canada-address, uk-address, india-address, singapore-address
+```
+
+### Technical Stack Tags
+```
+javascript, frontend, browser-only, no-backend, static-site, 
+privacy-first, openstreetmap, address-validation, postal-standards
+```
+
+### Use Case Tags
+```
+test-data, devtools, qa, testing, mock-data, form-testing, 
+automation, ci-cd, csv-export, json-export, mac-address
+```
+
+**Quick Copy (All Topics):**
+```
+address-generator, random-address, fake-address, tax-free-state, real-address, random-us-address, random-address-generator-for-testing, us-dummy-address-generator, hong-kong-address-random, random-address-in-hong-kong, hong-kong-random-address, japan-address-generator-tokyo, random-japan-address, taiwan-address-format, taiwan-address-sample, javascript, frontend, test-data, devtools, qa, testing, mock-data, browser-only, privacy-first, csv-export, json-export, mac-address
 ```
 
 ---
