@@ -197,6 +197,146 @@ console.log(csv);
 console.log(json);
 ```
 
+### Offline Local-Only Usage (Run Everything on Your Own Machine)
+
+If, like me, you prefer to **keep all data and logic on your own computer only**, without relying on any external server, you can treat MockAddress Core as a pure static site and run it via a simple local HTTP server:
+
+- My development environment is a Windows PC with:
+  - A modern browser (Chrome / Edge, etc.)
+  - Python / PHP / Node.js (at least one of them; in my case I have all three installed)
+- Clone this repository to a local directory, e.g. `D:\mockaddress-core\`.  
+- In the project root, create a `start-local-server.bat` with the following content to start a local server and automatically open `http://localhost:8000`:
+
+```bat
+@echo off
+
+echo Starting local server...
+
+echo.
+
+REM Check if Python 3 is available
+
+python --version >nul 2>&1
+
+if %errorlevel% equ 0 (
+
+    python -c "import sys; sys.exit(0 if sys.version_info >= (3, 0) else 1)" >nul 2>&1
+
+    if %errorlevel% equ 0 (
+
+        echo Found Python 3
+
+        echo Starting server on http://localhost:8000
+
+        echo Press Ctrl+C to stop
+
+        echo.
+
+        timeout /t 2 /nobreak >nul
+
+        start http://localhost:8000
+
+        python -m http.server 8000
+
+        exit /b 0
+
+    )
+
+)
+
+REM Check if Python 2 is available
+
+python --version >nul 2>&1
+
+if %errorlevel% equ 0 (
+
+    python -c "import sys; sys.exit(0 if sys.version_info < (3, 0) else 1)" >nul 2>&1
+
+    if %errorlevel% equ 0 (
+
+        echo Found Python 2
+
+        echo Starting server on http://localhost:8000
+
+        echo Press Ctrl+C to stop
+
+        echo.
+
+        timeout /t 2 /nobreak >nul
+
+        start http://localhost:8000
+
+        python -m SimpleHTTPServer 8000
+
+        exit /b 0
+
+    )
+
+)
+
+REM Check if PHP is available
+
+php --version >nul 2>&1
+
+if %errorlevel% equ 0 (
+
+    echo Found PHP
+
+    echo Starting server on http://localhost:8000
+
+    echo Press Ctrl+C to stop
+
+    echo.
+
+    timeout /t 2 /nobreak >nul
+
+    start http://localhost:8000
+
+    php -S localhost:8000
+
+    exit /b 0
+
+)
+
+REM Check if Node.js is available
+
+where npx >nul 2>&1
+
+if %errorlevel% equ 0 (
+
+    echo Found Node.js
+
+    echo Starting server on http://localhost:8000
+
+    echo Press Ctrl+C to stop
+
+    echo.
+
+    timeout /t 2 /nobreak >nul
+
+    start http://localhost:8000
+
+    npx --yes http-server -p 8000
+
+    exit /b 0
+
+)
+
+echo Error: No server found
+
+echo Please install Python, PHP, or Node.js
+
+pause
+
+exit /b 1
+```
+
+How to use:
+
+- Double-click `start-local-server.bat`. The script will try Python 3 → Python 2 → PHP → Node.js in order, start the first available local server, and open `http://localhost:8000` in your browser.  
+- From that point on, **all address generation logic— including the US address generator and the Hong Kong English/Chinese address generator—runs entirely on your own machine, with no Internet connection required**.  
+- This setup is ideal for **intranet environments** or teams with strict privacy/compliance requirements.
+
 For detailed usage instructions, see [`使用说明.md`](./使用说明.md) (Usage Guide in Chinese).
 
 You can also refer to our production site <https://mockaddress.com/> to see real-world usage scenarios and UI design, then customize as needed in your own project.
