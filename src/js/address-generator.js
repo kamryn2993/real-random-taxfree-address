@@ -236,7 +236,7 @@ export async function generateUSAddress(selectedState = 'RANDOM') {
       stateCode,
       zip,
       fullAddress,
-      country: '美国'
+      country: 'US'
     };
   } catch (error) {
     console.error('Error generating US address:', error);
@@ -391,7 +391,7 @@ export async function generateHKAddress(selectedRegion = 'RANDOM', isEnglish = f
       area: city, // 保留原字段以兼容
       fullAddress,
       zip,
-      country: isEnglish ? '香港 Hong Kong' : '香港'
+      country: 'HK'
     };
   } catch (error) {
     console.error('Error generating HK address:', error);
@@ -500,7 +500,7 @@ export async function generateUKAddress(selectedRegion = 'RANDOM') {
       postcode,
       region: regionNameEn, // 显示英文地区名
       fullAddress,
-      country: '英国'
+      country: 'UK'
     };
   } catch (error) {
     console.error('Error generating UK address:', error);
@@ -610,7 +610,7 @@ export async function generateCAAddress(selectedProvince = 'RANDOM') {
       postcode,
       province: provinceNameEn, // 显示英文省份名
       fullAddress,
-      country: '加拿大'
+      country: 'CA'
     };
   } catch (error) {
     console.error('Error generating CA address:', error);
@@ -778,7 +778,7 @@ export async function generateJPAddress(selectedPrefecture = 'RANDOM') {
       prefecture: prefectureName,
       postcode,
       fullAddress,
-      country: '日本'
+      country: 'JP'
     };
   } catch (error) {
     console.error('Error generating JP address:', error);
@@ -897,7 +897,7 @@ export async function generateINAddress(selectedState = 'RANDOM') {
       state: stateNameEn, // 显示英文邦名
       pin,
       fullAddress,
-      country: '印度'
+      country: 'IN'
     };
   } catch (error) {
     console.error('Error generating IN address:', error);
@@ -1022,7 +1022,7 @@ export async function generateTWAddress(selectedCounty = 'RANDOM') {
       district,
       postcode,
       fullAddress,
-      country: '台灣'
+      country: 'TW'
     };
   } catch (error) {
     console.error('Error generating TW address:', error);
@@ -1418,7 +1418,7 @@ export async function generateSGAddress(selectedState = 'RANDOM') {
       state: stateNameEn,
       stateCode: stateKey,
       fullAddress,
-      country: '新加坡'
+      country: 'SG'
     };
   } catch (error) {
     console.error('Error generating SG address:', error);
@@ -1530,7 +1530,7 @@ export async function generateDEAddress(selectedState = 'RANDOM') {
       state: stateNameEn,
       stateCode: stateKey,
       fullAddress,
-      country: '德国'
+      country: 'DE'
     };
   } catch (error) {
     console.error('Error generating DE address:', error);
