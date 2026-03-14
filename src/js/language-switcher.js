@@ -197,6 +197,13 @@ export function initLanguageSwitcher() {
   // 获取当前语言
   const currentLang = getCurrentLanguage();
   const currentLangData = languages[currentLang];
+  const isMobileViewport = () => window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
+  const formatCurrentLangLabel = () => {
+    // 模板工程：保持与正式站一致的移动端缩写策略
+    if (currentLang === 'zh' && isMobileViewport()) return 'CN';
+    if (currentLang === 'pt' && isMobileViewport()) return 'PT';
+    return `${currentLangData.flag} ${currentLangData.nativeName}`;
+  };
 
   // 添加全局点击事件监听器（只添加一次）
   if (!globalClickHandlerAdded) {
@@ -239,7 +246,7 @@ export function initLanguageSwitcher() {
 
     // 更新按钮显示
     if (langButtonText) {
-      langButtonText.textContent = `${currentLangData.flag} ${currentLangData.nativeName}`;
+      langButtonText.textContent = formatCurrentLangLabel();
     }
 
     // 生成语言选项（不使用 inline onclick，避免被其他脚本/策略影响）
@@ -296,6 +303,23 @@ export function initLanguageSwitcher() {
       }
     });
   });
+
+  // 处理横竖屏/窗口尺寸变化：与正式站保持一致
+  if (!window.__langBtnResizeBound) {
+    window.__langBtnResizeBound = true;
+    const onResize = () => {
+      document.querySelectorAll('.language-switcher').forEach((wrapper) => {
+        const langButtonText =
+          wrapper.querySelector('#language-switcher-text') ||
+          wrapper.querySelector('.language-switcher-text');
+        if (langButtonText) {
+          langButtonText.textContent = formatCurrentLangLabel();
+        }
+      });
+    };
+    window.addEventListener('resize', onResize, { passive: true });
+    window.addEventListener('orientationchange', onResize, { passive: true });
+  }
 }
 
 // 自动初始化 - 只在 DOM 加载完成后执行
